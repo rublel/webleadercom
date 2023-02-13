@@ -1,4 +1,5 @@
 import { Routes } from '@nestjs/core';
+import { ActivitiesModule } from 'src/api/activities/activitites.module';
 import { ApiModule } from 'src/api/api.module';
 import { CustomersModule } from 'src/api/customers/customers.module';
 
@@ -10,6 +11,10 @@ export const crmApiRoutes: Routes = [
       {
         path: '/customers',
         module: CustomersModule,
+      },
+      {
+        path: '/activities',
+        module: ActivitiesModule,
       },
     ],
   },

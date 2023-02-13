@@ -1,8 +1,9 @@
 import { DataSource } from 'typeorm';
 
-export const databaseProviders = [
+const SYNC_MODE = false;
+export const dwcProviders = [
   {
-    provide: 'DATA_SOURCE',
+    provide: 'DWC_MYSQL_CONNECTION',
     useFactory: async () => {
       const dataSource = new DataSource({
         type: 'mysql',
@@ -11,12 +12,10 @@ export const databaseProviders = [
         username: 'localhost',
         password: '',
         database: 'DWC',
-        synchronize: false,
+        synchronize: SYNC_MODE,
         entities: ['./dist/**/*.entity.js'],
         logging: true,
-        logger: 'file',
       });
-
       return dataSource.initialize();
     },
   },

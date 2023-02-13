@@ -9,9 +9,13 @@ export class CustomersService {
     private customerRepository: Repository<Customer>,
   ) {}
 
-  async findAll(): Promise<Customer[] | {}> {
+  async findAll(activity: string): Promise<Customer[] | {}> {
+    console.log('activity', activity);
+
     try {
-      const customers = await this.customerRepository.find({ take: 50 });
+      const customers = await this.customerRepository.find({
+        where: { activite: activity },
+      });
       return customers.length ? customers : { message: 'No customers found' };
     } catch (error) {
       console.log(error);
