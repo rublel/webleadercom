@@ -8,7 +8,7 @@ export const databaseProviders = [
         type: 'mysql',
         host: '51.91.236.48',
         port: 3306,
-        username: 'webleadercomprd',
+        username: '',
         password: 'JHDYSkxhe845xsUE',
         database: 'DWC',
         synchronize: false,
