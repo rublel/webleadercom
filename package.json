@@ -23,9 +23,18 @@
     "@nestjs/common": "^8.0.0",
     "@nestjs/core": "^8.0.0",
     "@nestjs/platform-express": "^8.0.0",
+    "@nestjs/schedule": "^2.2.0",
+    "@nestjs/swagger": "^6.2.1",
+    "@nestjs/typeorm": "^9.0.1",
+    "helmet": "^6.0.1",
+    "ip": "^1.1.8",
+    "mysql2": "^3.1.2",
+    "nest-router": "^1.0.9",
+    "pg": "^8.9.0",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
     "rxjs": "^7.2.0",
+    "typeorm": "^0.3.12",
     "webleadercom": "github:rublel/webleadercom"
   },
   "devDependencies": {
