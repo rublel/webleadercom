@@ -11,7 +11,7 @@ export const databaseProviders = [
         username: 'webleadercomprd',
         password: 'JHDYSkxhe845xsUE',
         database: 'DWC',
-        synchronize: true,
+        synchronize: false,
         entities: ['./dist/**/*.entity.js'],
         logging: true,
         logger: 'file',
