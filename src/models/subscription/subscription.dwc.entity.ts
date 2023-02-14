@@ -1,3 +1,4 @@
+import { ApiProperty } from '@nestjs/swagger';
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity('subscriptions')
@@ -5,30 +6,39 @@ export class Subscription {
   @PrimaryGeneratedColumn()
   id: number;
 
+  @ApiProperty({ type: String, description: 'Subscription ID' })
   @Column()
   subscription_id: string;
 
+  @ApiProperty({ type: String, description: 'Customer ID' })
   @Column()
   customer_id: string;
 
+  @ApiProperty({ type: String, description: 'Activity ID' })
   @Column()
   activity_id: string;
 
+  @ApiProperty({ type: Number, description: 'Monthly price' })
   @Column()
   monthly_price: number;
 
+  @ApiProperty({ type: String, description: 'Month' })
   @Column()
   month: string;
 
+  @ApiProperty({ type: String, description: 'Year' })
   @Column()
   year: string;
 
+  @ApiProperty({ type: String, description: 'Status' })
   @Column()
   status: string;
 
+  @ApiProperty({ type: Boolean, description: 'Is paid' })
   @Column()
   is_paid: boolean;
 
+  @ApiProperty({ type: String, description: 'Payment method' })
   @Column()
   payment_method: string;
 

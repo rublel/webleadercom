@@ -14,12 +14,13 @@ async function bootstrap() {
     app,
     'api/docs',
     'WLC CRM | API Docs',
-    'CRM API',
-    'CRM for WLC',
+    'Capital Marketing API',
+    'CRM for Capital marketing & Web Leader Communication',
     '1.0.0',
   );
+  app.enableCors();
   app.useGlobalInterceptors(new ResponseInterceptor());
-  app.use(helmet());
+  // app.use(helmet());
   await app.listen(process.env.PORT || 3000);
   Logger.verbose(
     `Server running on http://${ip.address()}:${process.env.PORT || 3000}`,
@@ -45,7 +46,7 @@ function generateSwaggerApi(
     .setVersion(version)
     .addServer(prdServer, 'Production Server')
     .addTag('CRM')
-    .setContact('Ruben L', null, 'rubenlellouche26@gmail.com')
+    .setContact('Ruben Lellouche', null, 'rubenlellouche26@gmail.com')
     .build();
 
   const document = SwaggerModule.createDocument(app, appDocumentSwagger);

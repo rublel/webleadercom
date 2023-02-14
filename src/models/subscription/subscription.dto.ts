@@ -1,7 +1,18 @@
+import { ApiProperty } from '@nestjs/swagger';
+
 export class CreateSubscriptionDto {
-  customer_id: string;
-  activity_id: string;
-  monthly_price: number;
-  start_date: string;
-  payment_method: string;
+  @ApiProperty({ type: String, description: 'Customer ID', required: true })
+  readonly customer_id: string;
+
+  @ApiProperty({ type: String, description: 'Activity ID', required: true })
+  readonly activity_id: string;
+
+  @ApiProperty({ type: Number, description: 'Monthly Price', required: true })
+  readonly monthly_price: number;
+
+  @ApiProperty({ type: String, description: 'Start Date', required: true })
+  readonly start_date: string;
+
+  @ApiProperty({ type: String, description: 'Payment Method', required: true })
+  readonly payment_method: string;
 }

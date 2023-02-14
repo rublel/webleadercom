@@ -19,8 +19,8 @@ export class CustomersController {
   @Get()
   @ApiResponse({
     status: HttpStatus.OK,
-    description: 'Get all customers.',
-    type: [Customer],
+    description: 'Get customer by id',
+    type: Customer,
   })
   findById(@Query('id') id: number): Promise<Customer> {
     return this.customerService.findById(id);

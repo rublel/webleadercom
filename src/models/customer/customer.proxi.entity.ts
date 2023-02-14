@@ -15,27 +15,35 @@ export class Customer {
   @Column({ length: 100 })
   public mail: string;
 
+  @ApiProperty({ type: String, description: 'Customer phone' })
   @Column({ length: 100 })
   public portable: string;
 
+  @ApiProperty({ type: String, description: 'Customer address' })
   @Column({ length: 100 })
   public activite: string;
 
+  @ApiProperty({ type: String, description: 'Customer address' })
   @Column({ length: 100 })
   public departement: string;
 
+  @ApiProperty({ type: String, description: 'Customer address' })
   @Column({ length: 100 })
   public region: string;
 
+  @ApiProperty({ type: String, description: 'Customer address' })
   @Column({ length: 100 })
   public cp: string;
 
+  @ApiProperty({ type: String, description: 'Customer address' })
   @Column({ length: 100 })
   public pays: string;
 
+  @ApiProperty({ type: String, description: 'Customer address' })
   @Column()
   public radius: number;
 
+  @ApiProperty({ type: String, description: 'Customer address' })
   @Column()
   public nbrpresta: number;
 
