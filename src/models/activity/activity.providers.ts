@@ -1,5 +1,5 @@
 import { DataSource } from 'typeorm';
-import { Activity } from './activity.entity';
+import { Activity } from './activity.dwc.entity';
 
 export const activityProviders = [
   {

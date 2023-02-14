@@ -3,9 +3,10 @@ import { ActivitiesController } from './activities.controller';
 import { ActivitiesService } from './activities.service';
 import { activityProviders } from '../../models/activity/activity.providers';
 import { DatabaseModule } from 'src/common/mysql/database.module';
+import { LoggerModule } from 'src/utils/looger/logger/logger.module';
 
 @Module({
-  imports: [DatabaseModule],
+  imports: [DatabaseModule, LoggerModule],
   controllers: [ActivitiesController],
   providers: [ActivitiesService, ...activityProviders],
 })

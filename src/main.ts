@@ -6,6 +6,7 @@ import { INestApplication, Logger } from '@nestjs/common';
 import * as fs from 'fs';
 import helmet from 'helmet';
 import * as ip from 'ip';
+import { ResponseInterceptor } from './common/interceptors/response.interceptor';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -17,11 +18,12 @@ async function bootstrap() {
     'CRM for WLC',
     '1.0.0',
   );
+  app.useGlobalInterceptors(new ResponseInterceptor());
   app.use(helmet());
   await app.listen(process.env.PORT || 3000);
   Logger.verbose(
     `Server running on http://${ip.address()}:${process.env.PORT || 3000}`,
-    'Bootstrap',
+    `Environnemet:${process.env.NODE_ENV.toUpperCase()}`,
   );
 }
 

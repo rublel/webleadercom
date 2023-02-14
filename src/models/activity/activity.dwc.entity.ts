@@ -1,12 +1,5 @@
-import {
-  Column,
-  Entity,
-  ManyToMany,
-  PrimaryColumn,
-  PrimaryGeneratedColumn,
-} from 'typeorm';
+import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
-import { Customer } from '../customer/customer.entity';
 
 @Entity('activities')
 export class Activity {
@@ -29,9 +22,6 @@ export class Activity {
   })
   @Column({ length: 100 })
   public description: string;
-
-  @ManyToMany(() => Customer, (customer) => customer.activities)
-  public customers: Customer[];
 
   constructor(partial: Partial<Activity>) {
     Object.assign(this, partial);

@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Customer } from '../customer/customer.entity';
+import { Customer } from '../customer/customer.proxi.entity';
 
 export class CreateActivityDto {
   @ApiProperty({ required: true })

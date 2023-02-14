@@ -1,10 +1,19 @@
-import { Body, Controller, Get, HttpStatus, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  HttpStatus,
+  Post,
+  UseInterceptors,
+} from '@nestjs/common';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
+import { LoggingInterceptor } from 'src/common/interceptors/logger.interceptor';
 import { CreateActivityDto } from 'src/models/activity/activity.dto';
-import { Activity } from 'src/models/activity/activity.entity';
+import { Activity } from 'src/models/activity/activity.dwc.entity';
 import { ActivitiesService } from './activities.service';
 
 @ApiTags('Activities')
+@UseInterceptors(LoggingInterceptor)
 @Controller()
 export class ActivitiesController {
   constructor(private readonly activitiesService: ActivitiesService) {}

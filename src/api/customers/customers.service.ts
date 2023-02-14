@@ -1,5 +1,5 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { Customer } from 'src/models/customer/customer.entity';
+import { Customer } from 'src/models/customer/customer.proxi.entity';
 import { Repository } from 'typeorm';
 
 @Injectable()
@@ -9,16 +9,11 @@ export class CustomersService {
     private customerRepository: Repository<Customer>,
   ) {}
 
-  async findAll(activity: string): Promise<Customer[] | {}> {
-    console.log('activity', activity);
-
+  async findById(id: number): Promise<Customer> {
     try {
-      const customers = await this.customerRepository.find({
-        where: { activite: activity },
-      });
-      return customers.length ? customers : { message: 'No customers found' };
+      return await this.customerRepository.findOneBy({ id });
     } catch (error) {
-      console.log(error);
+      throw new Error(error);
     }
   }
 }

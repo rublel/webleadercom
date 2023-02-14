@@ -1,5 +1,5 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { Activity } from 'src/models/activity/activity.entity';
+import { Activity } from 'src/models/activity/activity.dwc.entity';
 import { Repository } from 'typeorm';
 import { CreateActivityDto } from 'src/models/activity/activity.dto';
 
