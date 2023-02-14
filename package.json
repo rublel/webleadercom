@@ -20,7 +20,7 @@
     "test:e2e": "jest --config ./test/jest-e2e.json"
   },
   "dependencies": {
-    "@nestjs/common": "^8.0.0",
+    "@nestjs/common": "^9.0.0",
     "@nestjs/core": "^8.3.0",
     "@nestjs/platform-express": "^8.0.0",
     "@nestjs/schedule": "^2.2.0",
@@ -28,6 +28,7 @@
     "@nestjs/typeorm": "^9.0.1",
     "helmet": "^6.0.1",
     "ip": "^1.1.8",
+    "latest": "^0.2.0",
     "mysql2": "^3.1.2",
     "nest-router": "^1.0.9",
     "pg": "^8.9.0",
