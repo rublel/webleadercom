@@ -6,11 +6,12 @@ import {
 } from 'src/models/subscription/subscription.dto';
 import { Subscription } from 'src/models/subscription/subscription.dwc.entity';
 import { v4 as uuid } from 'uuid';
+import { SUBSCRIPTION_REPOSITORY } from 'src/models/constants';
 
 @Injectable()
 export class SubscriptionsService {
   constructor(
-    @Inject('SUBSCRIPTION_REPOSITORY')
+    @Inject(SUBSCRIPTION_REPOSITORY)
     private subscriptionsRepository: Repository<Subscription>,
   ) {}
 

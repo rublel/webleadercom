@@ -1,11 +1,12 @@
 import { Inject, Injectable } from '@nestjs/common';
+import { CUSTOMER_REPOSITORY } from 'src/models/constants';
 import { Customer } from 'src/models/customer/customer.proxi.entity';
 import { Like, Repository } from 'typeorm';
 
 @Injectable()
 export class CustomersService {
   constructor(
-    @Inject('CUSTOMER_REPOSITORY')
+    @Inject(CUSTOMER_REPOSITORY)
     private customerRepository: Repository<Customer>,
   ) {}
 
