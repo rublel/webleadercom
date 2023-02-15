@@ -20,7 +20,7 @@ async function bootstrap() {
   );
   app.enableCors();
   app.useGlobalInterceptors(new ResponseInterceptor());
-  // app.use(helmet());
+  app.use(helmet());
   await app.listen(process.env.PORT || 3000);
   Logger.verbose(
     `Server running on http://${ip.address()}:${process.env.PORT || 3000}`,
