@@ -5,6 +5,9 @@
   "author": "",
   "private": true,
   "license": "UNLICENSED",
+  "engines": {
+    "node": "16.15.0"
+  },
   "scripts": {
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
@@ -19,8 +22,7 @@
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
-    "compodoc": "compodoc -p tsconfig.json -s",
-    "install": "npm install --legacy-peer-deps"
+    "compodoc": "compodoc -p tsconfig.json -s"
   },
   "dependencies": {
     "@nestjs/common": "^8.0.0",
