@@ -26,17 +26,17 @@ export class SubscriptionsService {
     const [start_year, start_month] = start_date.split('-');
     const subscriptions: Subscription[] = [];
     const subscription_id = uuid();
-    for (let i = Number(start_month); i < 13; i++) {
+    for (let i = 1; i < 13; i++) {
       subscriptions.push(
         new Subscription({
           subscription_id,
           customer_id,
           activity_id,
           monthly_price,
-          month: String(i),
+          month: i < 10 ? `0${i}` : String(i),
           year: String(start_year),
           payment_method,
-          is_paid: payment_method === 'SEPA',
+          is_paid: i < Number(start_month) ? false : payment_method === 'SEPA',
         }),
       );
     }

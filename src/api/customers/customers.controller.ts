@@ -1,8 +1,10 @@
 import {
+  Body,
   Controller,
   Get,
   HttpStatus,
   Param,
+  Post,
   Query,
   UseInterceptors,
 } from '@nestjs/common';
@@ -24,5 +26,15 @@ export class CustomersController {
   })
   findById(@Query('id') id: number): Promise<Customer> {
     return this.customerService.findById(id);
+  }
+
+  @Get('search')
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'Search customer by id, email or phone',
+    type: [Customer],
+  })
+  search(@Query('queryString') queryString: string): Promise<Customer[]> {
+    return this.customerService.search(queryString);
   }
 }

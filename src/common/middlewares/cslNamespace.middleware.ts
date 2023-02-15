@@ -1,12 +1,12 @@
 import { Request, Response, NextFunction } from 'express';
 import { v4 as uuid } from 'uuid';
 import { createNamespace } from 'cls-hooked';
-import { TRACE_STORAGE_CLIENTELING_APP } from './/clsNamespace.constants';
+import { TRACE_STORAGE_CRM_APP } from './/clsNamespace.constants';
 import { NestMiddleware } from '@nestjs/common';
 import { performance } from 'perf_hooks';
 import { REQUEST_START_TIMESTAMP, TRACE_ID } from './/clsNamespace.constants';
 
-const traceStorage = createNamespace(TRACE_STORAGE_CLIENTELING_APP);
+const traceStorage = createNamespace(TRACE_STORAGE_CRM_APP);
 
 export class ClsCRMMiddleware implements NestMiddleware {
   use(req: Request, res: Response, next: NextFunction) {
