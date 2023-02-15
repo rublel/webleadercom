@@ -1,9 +1,11 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { Repository } from 'typeorm';
-import { CreateSubscriptionDto } from 'src/models/subscription/subscription.dto';
+import {
+  CreateSubscriptionDto,
+  MergedSubscriptions,
+} from 'src/models/subscription/subscription.dto';
 import { Subscription } from 'src/models/subscription/subscription.dwc.entity';
 import { v4 as uuid } from 'uuid';
-import { ApiProperty } from '@nestjs/swagger';
 
 @Injectable()
 export class SubscriptionsService {
@@ -74,15 +76,4 @@ export class SubscriptionsService {
       console.log(error);
     }
   }
-}
-
-export class MergedSubscriptions {
-  @ApiProperty({ type: String, description: 'Customer ID' })
-  customer_id: string;
-
-  @ApiProperty({ type: String, description: 'Activity ID' })
-  activity_id: string;
-
-  @ApiProperty({ type: [Subscription], description: 'Subscription per month' })
-  subscription: Partial<Subscription>[];
 }

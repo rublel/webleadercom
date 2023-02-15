@@ -1,3 +1,4 @@
+import { PROXI_MYSQL_CONNECTION } from 'src/models/constants';
 import { DataSource } from 'typeorm';
 import appConfig from '../../config/app';
 
@@ -6,7 +7,7 @@ if (SYNC_MODE) throw new Error('SYNC MODE IS ON');
 
 export const proxiProviders = [
   {
-    provide: 'PROXI_MYSQL_CONNECTION',
+    provide: PROXI_MYSQL_CONNECTION,
     useFactory: async () => {
       const dataSource = new DataSource({
         type: 'mysql',

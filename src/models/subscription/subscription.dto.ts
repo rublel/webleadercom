@@ -1,4 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { Subscription } from './subscription.dwc.entity';
 
 export class CreateSubscriptionDto {
   @ApiProperty({ type: String, description: 'Customer ID', required: true })
@@ -15,4 +16,15 @@ export class CreateSubscriptionDto {
 
   @ApiProperty({ type: String, description: 'Payment Method', required: true })
   readonly payment_method: string;
+}
+
+export class MergedSubscriptions {
+  @ApiProperty({ type: String, description: 'Customer ID' })
+  customer_id: string;
+
+  @ApiProperty({ type: String, description: 'Activity ID' })
+  activity_id: string;
+
+  @ApiProperty({ type: [Subscription], description: 'Subscription per month' })
+  subscription: Partial<Subscription>[];
 }
