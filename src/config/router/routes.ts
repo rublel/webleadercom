@@ -3,6 +3,7 @@ import { ActivitiesModule } from 'src/api/activities/activitites.module';
 import { ApiModule } from 'src/api/api.module';
 import { CustomersModule } from 'src/api/customers/customers.module';
 import { SubscriptionsModule } from 'src/api/subscriptions/subscriptions.module';
+import { ImpayesModule } from 'src/api/impayes/impayes.module';
 
 export const crmApiRoutes: Routes = [
   {
@@ -20,6 +21,10 @@ export const crmApiRoutes: Routes = [
       {
         path: '/subscriptions',
         module: SubscriptionsModule,
+      },
+      {
+        path: '/impayes',
+        module: ImpayesModule,
       },
     ],
   },

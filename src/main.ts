@@ -2,7 +2,7 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import * as path from 'path';
-import { INestApplication, Logger } from '@nestjs/common';
+import { INestApplication, Logger, ValidationPipe } from '@nestjs/common';
 import * as fs from 'fs';
 import helmet from 'helmet';
 import * as ip from 'ip';
@@ -20,6 +20,7 @@ async function bootstrap() {
   );
   app.enableCors();
   app.useGlobalInterceptors(new ResponseInterceptor());
+  app.useGlobalPipes(new ValidationPipe());
   app.use(helmet());
   await app.listen(process.env.PORT || 3000);
   Logger.verbose(

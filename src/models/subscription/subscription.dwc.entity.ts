@@ -19,7 +19,7 @@ export class Subscription {
   activity_id: string;
 
   @ApiProperty({ type: Number, description: 'Monthly price' })
-  @Column()
+  @Column({ type: 'float' })
   monthly_price: number;
 
   @ApiProperty({ type: String, description: 'Month' })
