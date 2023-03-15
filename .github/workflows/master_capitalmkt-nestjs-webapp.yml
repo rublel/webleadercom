@@ -52,5 +52,5 @@ jobs:
         with:
           app-name: 'capitalmkt-nestjs-webapp'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_59E343CCD78940FB849BC648402FBEAD }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_B1BF18C2782B4F74A33C92DFBF9F47A5 }}
           package: .
