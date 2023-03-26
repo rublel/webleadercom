@@ -18,6 +18,16 @@ export class CustomersService {
     }
   }
 
+  async getClients(query?: string): Promise<Customer[]> {
+    try {
+      return await this.customerRepository.find({
+        where: { status: 'Client' },
+      });
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
+
   async search(queryString: string): Promise<Customer[]> {
     try {
       const query = { queryString: `%${queryString}%` };

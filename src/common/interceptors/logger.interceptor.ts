@@ -28,7 +28,7 @@ export class LoggingInterceptor implements NestInterceptor {
     const requestId = ClsService.get(TRACE_ID);
     const req = context.getArgByIndex(0);
 
-    this.logger.http(
+    console.log(
       `${req.method} ${req.url}
 
 REQUEST: ${requestId}
@@ -42,7 +42,7 @@ body: ${JSON.stringify(req.body) !== '{}' ? JSON.stringify(req.body) : '{}'}
     return next.handle().pipe(
       tap((data) => {
         setTimeout(() => {
-          this.logger.http(
+          console.log(
             `Duration: ${Number(
               (
                 performance.now() - ClsService.get(REQUEST_START_TIMESTAMP)

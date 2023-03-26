@@ -28,6 +28,16 @@ export class CustomersController {
     return this.customerService.findById(id);
   }
 
+  @Get('clients')
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'Get all clients',
+    type: [Customer],
+  })
+  getClients(@Query('query') query?: string): Promise<Customer[]> {
+    return this.customerService.getClients(query);
+  }
+
   @Get('search')
   @ApiResponse({
     status: HttpStatus.OK,

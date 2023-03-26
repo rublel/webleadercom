@@ -9,7 +9,7 @@ export const dwcProviders = [
   {
     provide: DWC_MYSQL_CONNECTION,
     useFactory: async () => {
-      const dataSource = new DataSource({
+      const dataSource = await new DataSource({
         type: 'mysql',
         host: appConfig.mysql.dwc.host,
         port: appConfig.mysql.dwc.port,
