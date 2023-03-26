@@ -11,7 +11,7 @@ import { ClsCRMMiddleware } from './common/middlewares/cslNamespace.middleware';
   imports: [
     RouterModule.forRoutes(crmApiRoutes),
     ScheduleModule.forRoot(),
-    ApiModule,
+    // ApiModule,
   ],
   controllers: [AppController],
   providers: [AppService],
