@@ -5,9 +5,6 @@ export class CreateSubscriptionDto {
   @ApiProperty({ type: String, description: 'Customer ID', required: true })
   readonly customer_id: string;
 
-  @ApiProperty({ type: String, description: 'Activity ID', required: true })
-  readonly activity_id: string;
-
   @ApiProperty({ type: Number, description: 'Monthly Price', required: true })
   readonly monthly_price: number;
 

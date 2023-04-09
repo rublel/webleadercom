@@ -6,14 +6,17 @@ import {
 } from 'src/models/subscription/subscription.dto';
 import { Subscription } from 'src/models/subscription/subscription.dwc.entity';
 import { v4 as uuid } from 'uuid';
-import { CUSTOMER_REPOSITORY } from 'src/models/constants';
+import {
+  CUSTOMER_REPOSITORY,
+  SUBSCRIPTION_REPOSITORY,
+} from 'src/models/constants';
 import { Customer } from 'src/models/customer/customer.proxi.entity';
-import { log } from 'console';
+import { PaymentMethodFormatter } from 'src/types/payment-method';
 
 @Injectable()
 export class SubscriptionsService {
   constructor(
-    @Inject('SUBSCRIPTION_REPOSITORY')
+    @Inject(SUBSCRIPTION_REPOSITORY)
     private subscriptionsRepository: Repository<Subscription>,
     @Inject(CUSTOMER_REPOSITORY)
     private customerRepository: Repository<Customer>,
@@ -95,6 +98,8 @@ export class SubscriptionsService {
         const customer = customers.find(
           (customer) => customer.id === +subscription.customer_id,
         );
+        subscription.payment_method =
+          PaymentMethodFormatter[subscription.payment_method];
         return { ...subscription, ...customer };
       });
     } catch (error) {
