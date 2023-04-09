@@ -28,13 +28,13 @@ export class ImpayesController {
     return this.impayesService.findByPeriod(month, year);
   }
 
-  @Post()
-  @ApiResponse({
-    status: 200,
-    description: 'The found record',
-    type: [Customer],
-  })
-  create(@Body() body: CreateImpayeDto) {
-    return this.impayesService.create(body);
-  }
+  // @Post()
+  // @ApiResponse({
+  //   status: 200,
+  //   description: 'The found record',
+  //   type: [Customer],
+  // })
+  // create(@Body() body: CreateImpayeDto) {
+  //   return this.impayesService.create(body);
+  // }
 }
