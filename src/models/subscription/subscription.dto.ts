@@ -22,9 +22,6 @@ export class MergedSubscriptions {
   @ApiProperty({ type: String, description: 'Customer ID' })
   customer_id: string;
 
-  @ApiProperty({ type: String, description: 'Activity ID' })
-  activity_id: string;
-
   @ApiProperty({ type: [Subscription], description: 'Subscription per month' })
   subscription: Partial<Subscription>[];
 }

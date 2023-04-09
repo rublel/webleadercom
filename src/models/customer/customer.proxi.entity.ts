@@ -19,7 +19,7 @@ export class Customer {
   @Column({ length: 100, name: 'portable' })
   public phone: string;
 
-  @ApiProperty({ type: String, description: 'Customer address' })
+  @ApiProperty({ type: String, description: 'Customer activity' })
   @Column({ length: 100, name: 'activite' })
   public activity: string;
 

@@ -1,5 +1,11 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 
 @Entity('subscriptions')
 export class Subscription {
@@ -13,10 +19,6 @@ export class Subscription {
   @ApiProperty({ type: String, description: 'Customer ID' })
   @Column()
   customer_id: string;
-
-  @ApiProperty({ type: String, description: 'Activity ID' })
-  @Column()
-  activity_id: string;
 
   @ApiProperty({ type: Number, description: 'Monthly price' })
   @Column({ type: 'float' })

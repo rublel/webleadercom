@@ -1,29 +1,29 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { Repository } from 'typeorm';
+import { In, Repository } from 'typeorm';
 import {
   CreateSubscriptionDto,
   MergedSubscriptions,
 } from 'src/models/subscription/subscription.dto';
 import { Subscription } from 'src/models/subscription/subscription.dwc.entity';
 import { v4 as uuid } from 'uuid';
+import { CUSTOMER_REPOSITORY } from 'src/models/constants';
+import { Customer } from 'src/models/customer/customer.proxi.entity';
+import { log } from 'console';
 
 @Injectable()
 export class SubscriptionsService {
   constructor(
     @Inject('SUBSCRIPTION_REPOSITORY')
     private subscriptionsRepository: Repository<Subscription>,
+    @Inject(CUSTOMER_REPOSITORY)
+    private customerRepository: Repository<Customer>,
   ) {}
 
   async createSubscription(
     subscription: CreateSubscriptionDto,
   ): Promise<MergedSubscriptions> {
-    const {
-      customer_id,
-      activity_id,
-      monthly_price,
-      start_date,
-      payment_method,
-    } = subscription;
+    const { customer_id, monthly_price, start_date, payment_method } =
+      subscription;
 
     const [start_year, start_month] = start_date.split('-');
     const subscriptions: Subscription[] = [];
@@ -33,7 +33,6 @@ export class SubscriptionsService {
         new Subscription({
           subscription_id,
           customer_id,
-          activity_id,
           monthly_price,
           month: i < 10 ? `0${i}` : String(i),
           year: String(start_year),
@@ -60,7 +59,6 @@ export class SubscriptionsService {
           if (!acc[curr.customer_id])
             acc[curr.customer_id] = {
               customer_id: curr.customer_id,
-              activity_id: curr.activity_id,
               subscription: [fomratSubscription(curr)],
             };
           else
@@ -72,6 +70,33 @@ export class SubscriptionsService {
 
       const [customerSubscription] = Object.values(subscription);
       return customerSubscription;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async findByPeriod(month, year, activity?: string) {
+    try {
+      const subscriptions = await this.subscriptionsRepository.find({
+        where: {
+          month,
+          year,
+        },
+      });
+
+      const customers = await this.customerRepository.find({
+        where: {
+          id: In(subscriptions.map((subscription) => subscription.customer_id)),
+          ...(activity && { activity: In(activity.split(',')) }),
+        },
+      });
+
+      return subscriptions.map((subscription) => {
+        const customer = customers.find(
+          (customer) => customer.id === +subscription.customer_id,
+        );
+        return { ...subscription, ...customer };
+      });
     } catch (error) {
       console.log(error);
     }

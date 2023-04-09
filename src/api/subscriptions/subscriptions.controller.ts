@@ -1,4 +1,11 @@
-import { Body, Controller, Post, UseInterceptors } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Post,
+  Query,
+  UseInterceptors,
+} from '@nestjs/common';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { SubscriptionsService } from './subscriptions.service';
 import {
@@ -23,5 +30,19 @@ export class SubscriptionsController {
     @Body() createSubscriptionDto: CreateSubscriptionDto,
   ) {
     return this.subscriptionsService.createSubscription(createSubscriptionDto);
+  }
+
+  @Get()
+  @ApiResponse({
+    status: 200,
+    description: 'The found record',
+    type: [MergedSubscriptions],
+  })
+  async getSubscriptions(
+    @Query('month') month: string,
+    @Query('year') year: string,
+    @Query('activity') activity?: string,
+  ) {
+    return this.subscriptionsService.findByPeriod(month, year, activity);
   }
 }
