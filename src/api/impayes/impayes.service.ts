@@ -10,6 +10,7 @@ import { Impaye } from 'src/models/impaye/impayes.dwc.entity';
 import { Subscription } from 'src/models/subscription/subscription.dwc.entity';
 import { PaymentStatus } from 'src/types/payment-status';
 import { In, Repository } from 'typeorm';
+import { PaymentMethodFormatter } from 'src/types/payment-method';
 
 @Injectable()
 export class ImpayesService {
@@ -40,6 +41,7 @@ export class ImpayesService {
       const customer = customers.find(
         (customer) => customer.id === +impaye.customer_id,
       );
+      impaye.payment_method = PaymentMethodFormatter[impaye.payment_method];
       return { ...impaye, ...customer };
     });
   }
