@@ -16,7 +16,11 @@ export class Task {
   actions: string;
 
   @ApiProperty({ type: String, description: 'Task type' })
-  @Column({ type: 'enum', enum: ['subscription', 'rib'] })
+  @Column({
+    type: 'enum',
+    enum: ['subscription', 'rib'],
+    default: 'subscription',
+  })
   type: string;
 
   @ApiProperty({ type: String, description: 'Start Date' })
@@ -28,6 +32,10 @@ export class Task {
   monthly_price: number;
 
   @ApiProperty({ type: String, description: 'Status' })
-  @Column({ type: 'enum', enum: ['pending', 'done'] })
+  @Column({ type: 'enum', enum: ['pending', 'done'], default: 'pending' })
   status: string;
+
+  @ApiProperty({ type: String, description: 'List ID' })
+  @Column({ type: 'enum', enum: ['1', '2'], default: '2' })
+  list_id: string;
 }

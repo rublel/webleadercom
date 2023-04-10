@@ -36,7 +36,8 @@ export class CustomersService {
         .where('customer.id LIKE :queryString', query)
         .orWhere('customer.nom LIKE :queryString', query)
         .orWhere('customer.mail LIKE :queryString', query)
-        .getMany();
+        .getMany()
+        .then((c) => c.map((c) => new Customer(c)));
     } catch (error) {
       throw new Error(error);
     }

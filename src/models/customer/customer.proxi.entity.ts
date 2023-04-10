@@ -75,6 +75,6 @@ export class Customer {
 
   constructor(partial: Partial<Customer>) {
     Object.assign(this, partial);
-    this.isClient = this.status === 'test';
+    this.isClient = ['client', 'premium'].includes(this.status);
   }
 }
