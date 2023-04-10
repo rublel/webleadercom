@@ -11,6 +11,8 @@ import { Subscription } from 'src/models/subscription/subscription.dwc.entity';
 import { PaymentStatus } from 'src/types/payment-status';
 import { In, Repository } from 'typeorm';
 import { PaymentMethodFormatter } from 'src/types/payment-method';
+import { SubscriptionDto } from 'src/models/subscription/subscription.dto';
+import { log } from 'console';
 
 @Injectable()
 export class ImpayesService {
@@ -21,10 +23,19 @@ export class ImpayesService {
     private customerRepository: Repository<Customer>,
   ) {}
 
-  // create(impayeDto: CreateImpayeDto): Promise<Impaye> {
-  //   const impaye = new Impaye(impayeDto);
-  //   return this.impayesRepository.save(impaye);
-  // }
+  create(impayeDto: SubscriptionDto) {
+    const impaye = new Subscription(impayeDto);
+    log(impaye);
+    return this.subscriptionRepository.update(
+      {
+        customer_id: impaye.customer_id,
+        month: impaye.month,
+        year: impaye.year,
+        payment_method: 'SEPA',
+      },
+      { is_paid: false },
+    );
+  }
 
   async findByPeriod(month: string, year: string): Promise<any[]> {
     const customersWithImpayes = await this.subscriptionRepository.find({

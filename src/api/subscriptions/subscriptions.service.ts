@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { In, Repository } from 'typeorm';
 import {
-  CreateSubscriptionDto,
+  SubscriptionDto,
   MergedSubscriptions,
 } from 'src/models/subscription/subscription.dto';
 import { Subscription } from 'src/models/subscription/subscription.dwc.entity';
@@ -23,7 +23,7 @@ export class SubscriptionsService {
   ) {}
 
   async createSubscription(
-    subscription: CreateSubscriptionDto,
+    subscription: SubscriptionDto,
   ): Promise<MergedSubscriptions> {
     const { customer_id, monthly_price, start_date, payment_method } =
       subscription;

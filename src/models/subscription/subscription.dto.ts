@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Subscription } from './subscription.dwc.entity';
 
-export class CreateSubscriptionDto {
+export class SubscriptionDto {
   @ApiProperty({ type: String, description: 'Customer ID', required: true })
   readonly customer_id: string;
 

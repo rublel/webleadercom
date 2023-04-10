@@ -9,7 +9,7 @@ import {
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { SubscriptionsService } from './subscriptions.service';
 import {
-  CreateSubscriptionDto,
+  SubscriptionDto,
   MergedSubscriptions,
 } from 'src/models/subscription/subscription.dto';
 import { LoggingInterceptor } from 'src/common/interceptors/logger.interceptor';
@@ -26,9 +26,7 @@ export class SubscriptionsController {
     description: 'The record has been successfully created.',
     type: MergedSubscriptions,
   })
-  async createSubscription(
-    @Body() createSubscriptionDto: CreateSubscriptionDto,
-  ) {
+  async createSubscription(@Body() createSubscriptionDto: SubscriptionDto) {
     return this.subscriptionsService.createSubscription(createSubscriptionDto);
   }
 

@@ -11,6 +11,7 @@ import { LoggingInterceptor } from 'src/common/interceptors/logger.interceptor';
 import { Customer } from 'src/models/customer/customer.proxi.entity';
 import { CreateImpayeDto } from 'src/models/impaye/impaye.dto';
 import { ImpayesService } from './impayes.service';
+import { SubscriptionDto } from 'src/models/subscription/subscription.dto';
 
 @ApiTags('Imapyes')
 @UseInterceptors(LoggingInterceptor)
@@ -28,13 +29,13 @@ export class ImpayesController {
     return this.impayesService.findByPeriod(month, year);
   }
 
-  // @Post()
-  // @ApiResponse({
-  //   status: 200,
-  //   description: 'The found record',
-  //   type: [Customer],
-  // })
-  // create(@Body() body: CreateImpayeDto) {
-  //   return this.impayesService.create(body);
-  // }
+  @Post()
+  @ApiResponse({
+    status: 200,
+    description: 'The found record',
+    type: [Customer],
+  })
+  create(@Body() body: SubscriptionDto) {
+    return this.impayesService.create(body);
+  }
 }
