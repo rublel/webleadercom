@@ -7,6 +7,10 @@ export class Task {
   @PrimaryGeneratedColumn()
   task_id: number;
 
+  @ApiProperty({ type: String, description: 'Subscription ID' })
+  @Column()
+  subscription_id: string;
+
   @ApiProperty({ type: String, description: 'Customer ID' })
   @Column()
   customer_id: string;
@@ -23,9 +27,13 @@ export class Task {
   })
   type: string;
 
-  @ApiProperty({ type: String, description: 'Start Date' })
+  @ApiProperty({ type: String, description: 'Month' })
   @Column()
-  start_date: string;
+  month: string;
+
+  @ApiProperty({ type: String, description: 'Year' })
+  @Column()
+  year: string;
 
   @ApiProperty({ type: String, description: 'Monthly Price' })
   @Column()

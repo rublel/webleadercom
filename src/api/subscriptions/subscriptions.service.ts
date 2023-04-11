@@ -56,14 +56,14 @@ export class SubscriptionsService {
         { status: 'client' },
       );
 
-      this.taskRepository.save([
-        {
-          customer_id,
-          actions: 'insert',
-          start_date: new Date().toISOString(),
-          monthly_price: Number(monthly_price),
-        },
-      ]);
+      this.taskRepository.save({
+        customer_id,
+        subscription_id,
+        actions: 'insert',
+        month: start_month,
+        year: start_year,
+        monthly_price: Number(monthly_price),
+      });
 
       const insertedSubscriptions = await this.subscriptionsRepository.save(
         subscriptions,
