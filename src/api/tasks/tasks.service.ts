@@ -26,18 +26,16 @@ export class TasksService {
       where: { month, year },
     });
 
-    return await tasks.reduce(
-      async (acc, task) => {
-        const { actions, ...rest } = task;
-        const customer = await this.customerRepository.findOneBy({
-          id: +task.customer_id,
-        });
-        delete customer.status;
-        acc[actions].push({ ...rest, ...customer });
-        return acc;
-      },
-      { insert: [], update: [], delete: [] } as any,
-    );
+    const result = { insert: [], update: [], delete: [] };
+    for (const task of tasks) {
+      const { actions, ...rest } = task;
+      const customer = await this.customerRepository.findOneBy({
+        id: +task.customer_id,
+      });
+      delete customer.status;
+      result[actions].push({ ...rest, ...customer });
+    }
+    return result;
   }
 
   async updateStatus(subscription_id: string) {
