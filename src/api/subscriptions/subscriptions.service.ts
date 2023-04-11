@@ -9,9 +9,12 @@ import { v4 as uuid } from 'uuid';
 import {
   CUSTOMER_REPOSITORY,
   SUBSCRIPTION_REPOSITORY,
+  TASK_REPOSITORY,
 } from 'src/models/constants';
 import { Customer } from 'src/models/customer/customer.proxi.entity';
 import { PaymentMethodFormatter } from 'src/types/payment-method';
+import { PaymentStatus } from 'src/types/payment-status';
+import { Task } from 'src/models/task/task.dwc.entity';
 
 @Injectable()
 export class SubscriptionsService {
@@ -20,6 +23,8 @@ export class SubscriptionsService {
     private subscriptionsRepository: Repository<Subscription>,
     @Inject(CUSTOMER_REPOSITORY)
     private customerRepository: Repository<Customer>,
+    @Inject(TASK_REPOSITORY)
+    private taskRepository: Repository<Task>,
   ) {}
 
   async createSubscription(
@@ -30,8 +35,8 @@ export class SubscriptionsService {
 
     const [start_year, start_month] = start_date.split('-');
     const subscriptions: Subscription[] = [];
-    const subscription_id = uuid();
-    for (let i = 1; i < 13; i++) {
+    const subscription_id = `${new Date().getTime().toString()}-${uuid()}`;
+    for (let i = Number(start_month); i < 13; i++) {
       subscriptions.push(
         new Subscription({
           subscription_id,
@@ -46,6 +51,20 @@ export class SubscriptionsService {
     }
 
     try {
+      this.customerRepository.update(
+        { id: +customer_id },
+        { status: 'client' },
+      );
+
+      this.taskRepository.save([
+        {
+          customer_id,
+          actions: 'insert',
+          start_date: new Date().toISOString(),
+          monthly_price: Number(monthly_price),
+        },
+      ]);
+
       const insertedSubscriptions = await this.subscriptionsRepository.save(
         subscriptions,
       );
@@ -84,6 +103,8 @@ export class SubscriptionsService {
         where: {
           month,
           year,
+          is_paid: true,
+          status: PaymentStatus.DONE,
         },
       });
 
@@ -98,6 +119,7 @@ export class SubscriptionsService {
         const customer = customers.find(
           (customer) => customer.id === +subscription.customer_id,
         );
+
         subscription.payment_method =
           PaymentMethodFormatter[subscription.payment_method];
         return { ...subscription, ...customer };

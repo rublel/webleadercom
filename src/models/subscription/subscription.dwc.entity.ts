@@ -33,7 +33,7 @@ export class Subscription {
   year: string;
 
   @ApiProperty({ type: String, description: 'Status' })
-  @Column()
+  @Column({ type: 'enum', enum: ['pending', 'done'], default: 'pending' })
   status: string;
 
   @ApiProperty({ type: Boolean, description: 'Is paid' })
