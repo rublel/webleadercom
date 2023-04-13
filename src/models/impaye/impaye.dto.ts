@@ -39,3 +39,21 @@ export class CreateImpayeDto {
   @ApiProperty({ type: Number, description: 'Payment Amount', required: true })
   readonly payment_amount: number;
 }
+
+export class UpdateImpayeDto {
+  @IsString()
+  @ApiProperty({ type: String, description: 'Subscription Id', required: true })
+  readonly subscription_id: string;
+
+  @IsString()
+  @ApiProperty({ type: String, description: 'Year', required: true })
+  readonly year: string;
+
+  @IsString()
+  @ApiProperty({ type: String, description: 'Month', required: true })
+  readonly month: string;
+
+  @IsNumber()
+  @ApiProperty({ type: Number, description: 'Amount', required: true })
+  readonly amount: number;
+}

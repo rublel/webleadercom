@@ -1,12 +1,10 @@
 import { Inject, Injectable } from '@nestjs/common';
 import {
   CUSTOMER_REPOSITORY,
-  IMPAYE_REPOSITORY,
   SUBSCRIPTION_REPOSITORY,
 } from 'src/models/constants';
 import { Customer } from 'src/models/customer/customer.proxi.entity';
-import { CreateImpayeDto } from 'src/models/impaye/impaye.dto';
-import { Impaye } from 'src/models/impaye/impayes.dwc.entity';
+import { UpdateImpayeDto } from 'src/models/impaye/impaye.dto';
 import { Subscription } from 'src/models/subscription/subscription.dwc.entity';
 import { PaymentStatus } from 'src/types/payment-status';
 import { In, Repository } from 'typeorm';
@@ -55,5 +53,18 @@ export class ImpayesService {
       impaye.payment_method = PaymentMethodFormatter[impaye.payment_method];
       return { ...impaye, ...customer };
     });
+  }
+
+  async updateImpayeStatus(body: UpdateImpayeDto) {
+    log('receieved body', body);
+    const { subscription_id, month, year, amount } = body;
+    try {
+      await this.subscriptionRepository.update(
+        { subscription_id, month, year },
+        { is_paid: true, monthly_price: amount },
+      );
+    } catch (error) {
+      log(error);
+    }
   }
 }
