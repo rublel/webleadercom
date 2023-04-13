@@ -13,6 +13,7 @@ import { Customer } from 'src/models/customer/customer.proxi.entity';
 import { CreateImpayeDto, UpdateImpayeDto } from 'src/models/impaye/impaye.dto';
 import { ImpayesService } from './impayes.service';
 import { SubscriptionDto } from 'src/models/subscription/subscription.dto';
+import { log } from 'console';
 
 @ApiTags('Imapyes')
 @UseInterceptors(LoggingInterceptor)
@@ -52,6 +53,7 @@ export class ImpayesController {
     @Query('month') month: string,
     @Query('amount') amount: number,
   ) {
+    log('received body', subscription_id, year, month, amount);
     return this.impayesService.updateImpayeStatus({
       subscription_id,
       year,
