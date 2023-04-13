@@ -6,12 +6,14 @@ import { crmApiRoutes } from './config/router/routes';
 import { ApiModule } from './api/api.module';
 import { ScheduleModule } from '@nestjs/schedule';
 import { ClsCRMMiddleware } from './common/middlewares/cslNamespace.middleware';
+import { SendinblueModule } from './common/sendinblue/sendinblue.module';
 
 @Module({
   imports: [
     RouterModule.forRoutes(crmApiRoutes),
     ScheduleModule.forRoot(),
     ApiModule,
+    SendinblueModule,
   ],
   controllers: [AppController],
   providers: [AppService],

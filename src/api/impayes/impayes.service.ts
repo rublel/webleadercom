@@ -55,8 +55,24 @@ export class ImpayesService {
     });
   }
 
+  async findById(
+    subscription_id: string,
+  ): Promise<Pick<Subscription, 'month' | 'year' | 'monthly_price'>[]> {
+    try {
+      return this.subscriptionRepository
+        .createQueryBuilder('s')
+        .select(['s.month', 's.year', 's.monthly_price'])
+        .where('subscription_id = :subscription_id', {
+          subscription_id,
+        })
+        .andWhere('is_paid = :is_paid', { is_paid: false })
+        .getMany();
+    } catch (error) {
+      log(error);
+    }
+  }
+
   async updateImpayeStatus(body: UpdateImpayeDto) {
-    log('receieved body', body);
     const { subscription_id, month, year, amount } = body;
     try {
       await this.subscriptionRepository.update(

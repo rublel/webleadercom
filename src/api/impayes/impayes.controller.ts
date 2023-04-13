@@ -2,6 +2,7 @@ import {
   Body,
   Controller,
   Get,
+  Param,
   Patch,
   Post,
   Query,
@@ -14,6 +15,7 @@ import { CreateImpayeDto, UpdateImpayeDto } from 'src/models/impaye/impaye.dto';
 import { ImpayesService } from './impayes.service';
 import { SubscriptionDto } from 'src/models/subscription/subscription.dto';
 import { log } from 'console';
+import { Subscription } from 'src/models/subscription/subscription.dwc.entity';
 
 @ApiTags('Imapyes')
 @UseInterceptors(LoggingInterceptor)
@@ -29,6 +31,16 @@ export class ImpayesController {
   })
   getImpayes(@Query('month') month: string, @Query('year') year: string) {
     return this.impayesService.findByPeriod(month, year);
+  }
+
+  @Get('/:subscription_id')
+  @ApiResponse({
+    status: 200,
+    description: 'The found record',
+    type: [Subscription],
+  })
+  getImpaye(@Param('subscription_id') subscription_id: string) {
+    return this.impayesService.findById(subscription_id);
   }
 
   @Post()
@@ -53,7 +65,6 @@ export class ImpayesController {
     @Query('month') month: string,
     @Query('amount') amount: number,
   ) {
-    log('received body', subscription_id, year, month, amount);
     return this.impayesService.updateImpayeStatus({
       subscription_id,
       year,

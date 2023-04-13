@@ -17,11 +17,16 @@ export class CacheConfig {
   @IsNotEmpty() ttl: number;
 }
 
+export class SendInBlueConfig {
+  @IsNotEmpty() apiKey: string;
+}
+
 export default class Config {
   @IsNotEmpty() env: string;
   @IsNotEmpty() port: number;
   @IsNotEmpty() logLevel: string;
   @IsNotEmptyObject() mysql: { [key in MysqlDatabase]: MysqlConfig };
+  @IsNotEmptyObject() sendInBlue: SendInBlueConfig;
   @IsNotEmpty() cache: CacheConfig;
 
   public constructor(partial: Partial<Config>) {

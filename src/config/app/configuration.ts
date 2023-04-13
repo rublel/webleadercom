@@ -22,6 +22,9 @@ export default () => {
         database: process.env.MYSQL_PROXI_DB,
       },
     },
+    sendInBlue: {
+      apiKey: process.env.SENDINBLUE_API_KEY,
+    },
     cache: {
       ttl: +process.env.CACHE_TTL || 900,
     },
