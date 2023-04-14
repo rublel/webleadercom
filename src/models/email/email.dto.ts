@@ -2,8 +2,8 @@ import { IsEmail, IsNotEmpty, IsString } from 'class-validator';
 
 export class emailDto {
   to: Destination[];
-  templateId: string;
-  params: Params;
+  subject: string;
+  htmlContent: string;
 }
 
 export class Destination {

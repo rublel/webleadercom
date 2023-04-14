@@ -13,12 +13,7 @@ export class SendinblueService {
     private templateRepository: Repository<Template>,
   ) {}
 
-  async sendMail({ to, templateId }: emailDto) {
-    const template = await this.templateRepository
-      .createQueryBuilder()
-      .where('name = :name', { name: templateId })
-      .getOne();
-
+  async sendMail({ to, subject, htmlContent }: emailDto) {
     const url = 'https://api.sendinblue.com/v3/smtp/email';
     const data = {
       sender: {
@@ -30,8 +25,8 @@ export class SendinblueService {
         email: 'reseau.proxi.groupe@gmail.com',
         name: 'Support - Proxi Groupe',
       },
-      subject: template.subject,
-      htmlContent: template.htmlContent,
+      subject,
+      htmlContent,
     };
     const headers = {
       'Content-Type': 'application/json',

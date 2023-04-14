@@ -19,14 +19,13 @@ export class SendinblueController {
   sendMail(
     @Query('email') email: string,
     @Query('name') name: string,
-    @Query('template_id') templateId: string,
-    @Query('params')
-    params: { month: string; year: string; monthly_price: number },
+    @Query('subject') subject: string,
+    @Query('htmlContent') htmlContent: string,
   ) {
     const emailDto: emailDto = {
       to: [{ email, name }],
-      templateId,
-      params,
+      subject,
+      htmlContent,
     };
     return this.sendinblueService.sendMail(emailDto);
   }
