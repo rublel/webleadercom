@@ -6,6 +6,7 @@ import { SubscriptionsModule } from 'src/api/subscriptions/subscriptions.module'
 import { ImpayesModule } from 'src/api/impayes/impayes.module';
 import { TasksModule } from 'src/api/tasks/tasks.module';
 import { SendinblueModule } from 'src/common/sendinblue/sendinblue.module';
+import { TemplateModule } from 'src/api/templates/template.module';
 
 export const crmApiRoutes: Routes = [
   {
@@ -31,6 +32,10 @@ export const crmApiRoutes: Routes = [
       {
         path: '/tasks',
         module: TasksModule,
+      },
+      {
+        path: '/templates',
+        module: TemplateModule,
       },
       {
         path: '/utils',

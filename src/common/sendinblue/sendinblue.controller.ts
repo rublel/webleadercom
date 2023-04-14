@@ -20,7 +20,8 @@ export class SendinblueController {
     @Query('email') email: string,
     @Query('name') name: string,
     @Query('template_id') templateId: string,
-    @Query('params') params: { month: string; year: string; amount: number },
+    @Query('params')
+    params: { month: string; year: string; monthly_price: number },
   ) {
     const emailDto: emailDto = {
       to: [{ email, name }],

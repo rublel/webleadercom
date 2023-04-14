@@ -19,5 +19,5 @@ export type Params = ImpayeEmailParams;
 export type ImpayeEmailParams = {
   month: string;
   year: string;
-  amount: number;
+  monthly_price: number;
 };
