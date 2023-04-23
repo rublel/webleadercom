@@ -38,15 +38,58 @@ export class TasksService {
     return result;
   }
 
-  async updateStatus(subscription_id: string) {
-    const { status: currentStatus } = await this.taskRepository.findOneBy({
+  async updateStatus(subscription_id: string, month: string) {
+    const currentyear = new Date().getFullYear();
+    const task = await this.taskRepository.findOneBy({
       subscription_id,
     });
     const status =
-      currentStatus === PaymentStatus.DONE
+      task.status === PaymentStatus.DONE
         ? PaymentStatus.PENDING
         : PaymentStatus.DONE;
+
     this.subscriptionRepository.update({ subscription_id }, { status });
+
+    if (status === PaymentStatus.DONE) {
+      const subscriptions = [];
+      for (let i = Number(month); i < 13; i++) {
+        subscriptions.push(
+          new Subscription({
+            subscription_id,
+            customer_id: task.customer_id,
+            monthly_price: task.monthly_price,
+            month: i < 10 ? `0${i}` : String(i),
+            year: String(currentyear),
+            payment_method: 'SEPA',
+            is_paid: true,
+            status: PaymentStatus.DONE,
+          }),
+        );
+      }
+      await Promise.all(
+        subscriptions.map(async (subscription) => {
+          const sub = await this.subscriptionRepository.findOneBy({
+            subscription_id,
+            month: subscription.month,
+            year: subscription.year,
+          });
+          if (!sub) {
+            await this.subscriptionRepository.save(subscription);
+          } else {
+            await this.subscriptionRepository.update(
+              { subscription_id, month: subscription.month },
+              { status: PaymentStatus.DONE },
+            );
+          }
+        }),
+      );
+    } else {
+      await this.subscriptionRepository.update(
+        { subscription_id },
+        { status: PaymentStatus.PENDING },
+      );
+    }
+
     return await this.taskRepository.update({ subscription_id }, { status });
   }
 }

@@ -1,13 +1,8 @@
 import { ApiProperty } from '@nestjs/swagger';
-import {
-  Column,
-  CreateDateColumn,
-  Entity,
-  PrimaryGeneratedColumn,
-  UpdateDateColumn,
-} from 'typeorm';
+import { Column, Entity, Index, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity('subscriptions')
+@Index(['subscription_id', 'customer_id', 'month', 'year'], { unique: true })
 export class Subscription {
   @PrimaryGeneratedColumn()
   id: number;

@@ -36,10 +36,7 @@ export class TasksController {
     description: 'The found record',
     type: [Task],
   })
-  async getSubscriptions(
-    @Query('month') month: string,
-    @Query('year') year: string,
-  ) {
+  async getTasks(@Query('month') month: string, @Query('year') year: string) {
     return this.tasksService.findByPeriod(month, year);
   }
 
@@ -49,9 +46,10 @@ export class TasksController {
     description: 'The found record',
     type: [Task],
   })
-  async getSubscriptionsStatus(
+  async updateStatus(
     @Query('subscription_id') subscription_id: string,
+    @Query('month') month: string,
   ) {
-    return this.tasksService.updateStatus(subscription_id);
+    return this.tasksService.updateStatus(subscription_id, month);
   }
 }
