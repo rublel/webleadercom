@@ -144,6 +144,7 @@ export class SubscriptionsService {
           month,
           year,
           monthly_price: subscription.monthly_price,
+          status: PaymentStatus.DONE,
         });
       }
 
