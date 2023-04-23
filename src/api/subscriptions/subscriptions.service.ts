@@ -128,4 +128,52 @@ export class SubscriptionsService {
       console.log(error);
     }
   }
+
+  async deleteSubscription(date: string, customer_id: string, action: string) {
+    try {
+      const [year, month] = date.split('-');
+      const subscription = await this.subscriptionsRepository.findOne({
+        where: { customer_id, month, year },
+        select: ['payment_method', 'monthly_price', 'subscription_id'],
+      });
+      if (subscription.payment_method === 'SEPA') {
+        this.taskRepository.save({
+          subscription_id: subscription.subscription_id,
+          customer_id: customer_id,
+          actions: 'delete',
+          month,
+          year,
+          monthly_price: subscription.monthly_price,
+        });
+      }
+
+      await Promise.all(
+        Array.from(
+          { length: 13 - Number(month) },
+          (_, i) => i + Number(month),
+        ).map((month) => {
+          this.subscriptionsRepository.delete({
+            subscription_id: subscription.subscription_id,
+            payment_method: subscription.payment_method,
+            month: month < 10 ? `0${month}` : String(month),
+            year,
+          });
+        }),
+      );
+
+      switch (action) {
+        case 'delete':
+          this.customerRepository.delete({ id: +subscription.customer_id });
+          break;
+        case 'update':
+          this.customerRepository.update(
+            { id: +customer_id },
+            { status: 'old' },
+          );
+          break;
+      }
+    } catch (error) {
+      throw error;
+    }
+  }
 }

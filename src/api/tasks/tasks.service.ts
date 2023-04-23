@@ -32,7 +32,7 @@ export class TasksService {
       const customer = await this.customerRepository.findOneBy({
         id: +task.customer_id,
       });
-      delete customer.status;
+      delete customer?.status;
       result[actions].push({ ...rest, ...customer });
     }
     return result;

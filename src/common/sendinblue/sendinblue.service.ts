@@ -1,17 +1,11 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import axios from 'axios';
 import appConfig from '../../config/app/';
 import { emailDto } from 'src/models/email/email.dto';
-import { TEMPLATE_REPOSITORY } from 'src/models/constants';
-import { Repository } from 'typeorm';
-import { Template } from 'src/models/template/template.dwc.entity';
 
 @Injectable()
 export class SendinblueService {
-  constructor(
-    @Inject(TEMPLATE_REPOSITORY)
-    private templateRepository: Repository<Template>,
-  ) {}
+  constructor() {}
 
   async sendMail({ to, subject, htmlContent }: emailDto) {
     const url = 'https://api.sendinblue.com/v3/smtp/email';
