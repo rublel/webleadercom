@@ -78,7 +78,7 @@ export class ImpayesService {
     try {
       await this.subscriptionRepository.update(
         { subscription_id, month, year },
-        { is_paid: true, monthly_price },
+        { is_paid: true, monthly_price, status: PaymentStatus.DONE },
       );
     } catch (error) {
       log(error);
