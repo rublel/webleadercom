@@ -46,7 +46,7 @@ export class SubscriptionsController {
     return this.subscriptionsService.findByPeriod(month, year, activity);
   }
 
-  @Delete(':date/:customer_id/:action')
+  @Delete(':date/:customer_id/:action/:list_id')
   @ApiResponse({
     status: 200,
     description: 'The record has been successfully deleted.',
@@ -56,11 +56,13 @@ export class SubscriptionsController {
     @Param('date') date: string,
     @Param('customer_id') customer_id: string,
     @Param('action') action: string,
+    @Param('list_id') list_id: string,
   ) {
     return this.subscriptionsService.deleteSubscription(
       date,
       customer_id,
       action,
+      list_id,
     );
   }
 }

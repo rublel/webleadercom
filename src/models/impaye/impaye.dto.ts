@@ -55,5 +55,5 @@ export class UpdateImpayeDto {
 
   @IsNumber()
   @ApiProperty({ type: Number, description: 'Amount', required: true })
-  readonly amount: number;
+  readonly monthly_price: number;
 }

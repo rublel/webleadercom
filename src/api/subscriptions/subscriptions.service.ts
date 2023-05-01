@@ -56,14 +56,16 @@ export class SubscriptionsService {
         { status: 'client' },
       );
 
-      this.taskRepository.save({
-        customer_id,
-        subscription_id,
-        actions: 'insert',
-        month: start_month,
-        year: start_year,
-        monthly_price: Number(monthly_price),
-      });
+      if (payment_method === 'SEPA') {
+        this.taskRepository.save({
+          customer_id,
+          subscription_id,
+          actions: 'insert',
+          month: start_month,
+          year: start_year,
+          monthly_price: Number(monthly_price),
+        });
+      }
 
       const insertedSubscriptions = await this.subscriptionsRepository.save(
         subscriptions,
@@ -129,49 +131,64 @@ export class SubscriptionsService {
     }
   }
 
-  async deleteSubscription(date: string, customer_id: string, action: string) {
+  async deleteSubscription(
+    date: string,
+    customer_id: string,
+    action: string,
+    list_id: string,
+  ) {
     try {
       const [year, month] = date.split('-');
       const subscription = await this.subscriptionsRepository.findOne({
         where: { customer_id, month, year },
         select: ['payment_method', 'monthly_price', 'subscription_id'],
       });
-      if (subscription.payment_method === 'SEPA') {
-        this.taskRepository.save({
-          subscription_id: subscription.subscription_id,
-          customer_id: customer_id,
-          actions: 'delete',
-          month,
-          year,
-          monthly_price: subscription.monthly_price,
-          status: PaymentStatus.DONE,
-        });
-      }
-
-      await Promise.all(
-        Array.from(
-          { length: 13 - Number(month) },
-          (_, i) => i + Number(month),
-        ).map((month) => {
-          this.subscriptionsRepository.delete({
+      if (subscription) {
+        if (subscription.payment_method === 'SEPA') {
+          this.taskRepository.save({
             subscription_id: subscription.subscription_id,
-            payment_method: subscription.payment_method,
-            month: month < 10 ? `0${month}` : String(month),
+            customer_id: customer_id,
+            actions: 'delete',
+            list_id,
+            month,
             year,
+            monthly_price: subscription.monthly_price,
+            status: PaymentStatus.PENDING,
           });
-        }),
-      );
+        }
 
-      switch (action) {
-        case 'delete':
-          this.customerRepository.delete({ id: +subscription.customer_id });
-          break;
-        case 'update':
-          this.customerRepository.update(
-            { id: +customer_id },
-            { status: 'old' },
-          );
-          break;
+        await Promise.all(
+          Array.from(
+            { length: 13 - Number(month) },
+            (_, i) => i + Number(month),
+          ).map((month) => {
+            this.subscriptionsRepository.delete({
+              subscription_id: subscription.subscription_id,
+              payment_method: subscription.payment_method,
+              month: month < 10 ? `0${month}` : String(month),
+              year,
+            });
+          }),
+        );
+
+        switch (action) {
+          case 'delete':
+            this.customerRepository.update(
+              {
+                id: +customer_id,
+              },
+              {
+                status: 'deleted',
+              },
+            );
+            break;
+          case 'update':
+            this.customerRepository.update(
+              { id: +customer_id },
+              { status: 'old' },
+            );
+            break;
+        }
       }
     } catch (error) {
       throw error;

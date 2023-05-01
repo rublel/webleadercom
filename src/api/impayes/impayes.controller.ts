@@ -63,13 +63,13 @@ export class ImpayesController {
     @Query('subscription_id') subscription_id: string,
     @Query('year') year: string,
     @Query('month') month: string,
-    @Query('amount') amount: number,
+    @Query('amount') monthly_price: number,
   ) {
     return this.impayesService.updateImpayeStatus({
       subscription_id,
       year,
       month,
-      amount,
+      monthly_price,
     });
   }
 }

@@ -37,7 +37,7 @@ export class ImpayesService {
 
   async findByPeriod(month: string, year: string): Promise<any[]> {
     const customersWithImpayes = await this.subscriptionRepository.find({
-      where: { month, year, is_paid: false, status: PaymentStatus.DONE },
+      where: { month, year, is_paid: false },
     });
 
     const customers = await this.customerRepository.find({
@@ -73,11 +73,12 @@ export class ImpayesService {
   }
 
   async updateImpayeStatus(body: UpdateImpayeDto) {
-    const { subscription_id, month, year, amount } = body;
+    const { subscription_id, month, year, monthly_price } = body;
+    log(body);
     try {
       await this.subscriptionRepository.update(
         { subscription_id, month, year },
-        { is_paid: true, monthly_price: amount },
+        { is_paid: true, monthly_price },
       );
     } catch (error) {
       log(error);
