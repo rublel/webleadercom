@@ -170,25 +170,25 @@ export class SubscriptionsService {
             });
           }),
         );
+      }
 
-        switch (action) {
-          case 'delete':
-            this.customerRepository.update(
-              {
-                id: +customer_id,
-              },
-              {
-                status: 'deleted',
-              },
-            );
-            break;
-          case 'update':
-            this.customerRepository.update(
-              { id: +customer_id },
-              { status: 'old' },
-            );
-            break;
-        }
+      switch (action) {
+        case 'delete':
+          this.customerRepository.update(
+            {
+              id: +customer_id,
+            },
+            {
+              status: 'deleted',
+            },
+          );
+          break;
+        case 'update':
+          this.customerRepository.update(
+            { id: +customer_id },
+            { status: 'old' },
+          );
+          break;
       }
     } catch (error) {
       throw error;
