@@ -10,6 +10,7 @@ import { Customer } from 'src/models/customer/customer.proxi.entity';
 import { Task } from 'src/models/task/task.dwc.entity';
 import { PaymentStatus } from 'src/types/payment-status';
 import { Repository } from 'typeorm';
+import { CreateTaskDto } from 'src/models/task/task.dto';
 
 @Injectable()
 export class TasksService {
@@ -91,5 +92,24 @@ export class TasksService {
     }
 
     return await this.taskRepository.update({ subscription_id }, { status });
+  }
+
+  async create(createTaskDto: CreateTaskDto) {
+    const { customer_id, type, actions, month, year, monthly_price } =
+      createTaskDto;
+    const subscription = await this.subscriptionRepository.findOneBy({
+      customer_id,
+      month,
+      year,
+    });
+    return await this.taskRepository.save({
+      customer_id,
+      subscription_id: subscription?.subscription_id,
+      actions,
+      type,
+      month: +month < 10 ? `0${month}` : String(month),
+      year,
+      monthly_price: +monthly_price || subscription?.monthly_price,
+    });
   }
 }

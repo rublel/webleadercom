@@ -13,6 +13,7 @@ import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { LoggingInterceptor } from 'src/common/interceptors/logger.interceptor';
 import { Task } from 'src/models/task/task.dwc.entity';
 import { TasksService } from './tasks.service';
+import { CreateTaskDto } from 'src/models/task/task.dto';
 
 @ApiTags('Tasks')
 @UseInterceptors(LoggingInterceptor)
@@ -29,6 +30,16 @@ export class TasksController {
   //   async createSubscription(@Body() createSubscriptionDto: SubscriptionDto) {
   //     return this.subscriptionsService.createSubscription(createSubscriptionDto);
   //   }
+
+  @Post()
+  @ApiResponse({
+    status: 201,
+    description: 'The record has been successfully created.',
+    type: Task,
+  })
+  async createTask(@Body() createTaskDto: CreateTaskDto) {
+    return this.tasksService.create(createTaskDto);
+  }
 
   @Get()
   @ApiResponse({
