@@ -70,6 +70,12 @@ export class Customer {
   @Column({ length: 100, name: 'date_creation' })
   public creation_date: string;
 
+  @ApiProperty({ type: String, description: 'Last Amount Paid' })
+  public lastAmountPaid: {
+    monthly_price: number;
+    date: string;
+  };
+
   // @Column({ type: 'json', nullable: true })
   // public work_cp: string;
 
