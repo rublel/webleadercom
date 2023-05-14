@@ -63,4 +63,9 @@ export class TasksController {
   ) {
     return this.tasksService.updateStatus(subscription_id, month);
   }
+
+  @Post('applyTask')
+  async applyTask(@Body() body: any) {
+    return this.tasksService.applyTask(body);
+  }
 }

@@ -9,8 +9,9 @@ import {
 import { Customer } from 'src/models/customer/customer.proxi.entity';
 import { Task } from 'src/models/task/task.dwc.entity';
 import { PaymentStatus } from 'src/types/payment-status';
-import { Repository } from 'typeorm';
+import { Repository, getRepository } from 'typeorm';
 import { CreateTaskDto } from 'src/models/task/task.dto';
+import { async } from 'rxjs';
 
 @Injectable()
 export class TasksService {
@@ -111,5 +112,85 @@ export class TasksService {
       year,
       monthly_price: +monthly_price || subscription?.monthly_price,
     });
+  }
+
+  async applyTask({
+    type,
+    subscription_id,
+    task_id,
+    currentMonth,
+    currentYear,
+    monthly_price,
+  }) {
+    const actions = {
+      subscription: async () => {
+        const subscriptions = await this.subscriptionRepository
+          .createQueryBuilder('subscription')
+          .where('subscription.subscription_id = :subscription_id', {
+            subscription_id,
+          })
+          .andWhere('subscription.month >= :currentMonth', {
+            currentMonth:
+              +currentMonth < 10 ? `0${currentMonth}` : currentMonth,
+          })
+          .andWhere('subscription.year = :currentYear', {
+            currentYear,
+          })
+          .getMany();
+        const { customer_id, payment_method } = subscriptions[0];
+
+        if (subscriptions.length < 1) {
+          for (let i = Number(currentMonth); i < 13; i++) {
+            await this.subscriptionRepository.save(
+              new Subscription({
+                subscription_id,
+                customer_id,
+                monthly_price,
+                month: i < 10 ? `0${i}` : String(i),
+                year: String(currentYear),
+                payment_method,
+                is_paid:
+                  subscriptions[0].payment_method === 'SEPA' ? true : false,
+                status: PaymentStatus.DONE,
+              }),
+            );
+          }
+        }
+        return await Promise.all(
+          subscriptions.map((subscription) => {
+            this.subscriptionRepository.update(
+              { id: subscription.id },
+              { monthly_price },
+            );
+          }),
+        ).then(async () => {
+          await this.taskRepository.update(
+            { subscription_id, task_id },
+            { status: PaymentStatus.DONE },
+          );
+          return {
+            message:
+              payment_method === 'SEPA'
+                ? 'Le montant a été modifié avec succès dans les abonnements'
+                : 'Le montant a été modifié avec succès dans les abonnements à payer',
+          };
+        });
+      },
+      rib: async () => {
+        await this.taskRepository.update(
+          { task_id },
+          { status: PaymentStatus.DONE },
+        );
+        return { message: 'Le RIB a été mis à jour avec succès' };
+      },
+      delete: async () => {
+        await this.taskRepository.update(
+          { task_id },
+          { status: PaymentStatus.DONE },
+        );
+        return { message: 'Status mis à jour avec succès' };
+      },
+    };
+    return await actions[type]();
   }
 }
