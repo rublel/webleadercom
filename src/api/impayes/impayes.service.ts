@@ -7,7 +7,7 @@ import { Customer } from 'src/models/customer/customer.proxi.entity';
 import { UpdateImpayeDto } from 'src/models/impaye/impaye.dto';
 import { Subscription } from 'src/models/subscription/subscription.dwc.entity';
 import { PaymentStatus } from 'src/types/payment-status';
-import { In, Repository } from 'typeorm';
+import { In, IsNull, Not, Repository } from 'typeorm';
 import { PaymentMethodFormatter } from 'src/types/payment-method';
 import { SubscriptionDto } from 'src/models/subscription/subscription.dto';
 import { log } from 'console';
@@ -43,6 +43,7 @@ export class ImpayesService {
     const customers = await this.customerRepository.find({
       where: {
         id: In(customersWithImpayes.map((impaye) => impaye.customer_id)),
+        email: Not(IsNull()),
       },
     });
 
