@@ -2,8 +2,8 @@ import { DWC_MYSQL_CONNECTION } from 'src/models/constants';
 import { DataSource } from 'typeorm';
 import appConfig from '../../config/app/';
 
-const SYNC_MODE = true;
-// if (SYNC_MODE) throw new Error('SYNC MODE IS ON');
+const SYNC_MODE = false;
+if (SYNC_MODE) throw new Error('SYNC MODE IS ON');
 
 export const dwcProviders = [
   {
