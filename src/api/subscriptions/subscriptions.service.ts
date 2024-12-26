@@ -117,14 +117,15 @@ export class SubscriptionsService {
         },
       });
 
-      return subscriptions.map((subscription) => {
-        const customer = customers.find(
-          (customer) => customer.id === +subscription.customer_id,
+      return customers.map((customer) => {
+        const subscription = subscriptions.find(
+          (subscription) => +subscription.customer_id === customer.id,
         );
-
-        subscription.payment_method =
-          PaymentMethodFormatter[subscription.payment_method];
-        return { ...subscription, ...customer };
+        return {
+          ...customer,
+          ...subscription,
+          payment_method: PaymentMethodFormatter[subscription.payment_method],
+        };
       });
     } catch (error) {
       console.log(error);
