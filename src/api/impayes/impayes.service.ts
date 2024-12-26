@@ -47,9 +47,9 @@ export class ImpayesService {
       },
     });
 
-    return customersWithImpayes.map((impaye) => {
-      const customer = customers.find(
-        (customer) => customer.id === +impaye.customer_id,
+    return customers.map((customer) => {
+      const impaye = customersWithImpayes.find(
+        (impaye) => +impaye.customer_id === customer.id,
       );
       impaye.payment_method = PaymentMethodFormatter[impaye.payment_method];
       return { ...impaye, ...customer };
