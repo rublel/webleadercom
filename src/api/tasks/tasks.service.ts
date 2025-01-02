@@ -29,14 +29,17 @@ export class TasksService {
     });
 
     const result = { insert: [], update: [], delete: [] };
-    for (const task of tasks) {
-      const { actions, ...rest } = task;
-      const customer = await this.customerRepository.findOneBy({
-        id: +task.customer_id,
-      });
-      delete customer?.status;
-      result[actions].push({ ...rest, ...customer });
-    }
+    await Promise.all(
+      tasks.map(async (task) => {
+        const { actions, ...rest } = task;
+        const customer = await this.customerRepository.findOneBy({
+          id: +task.customer_id,
+        });
+        if (!customer) return;
+        delete customer?.status;
+        result[actions].push({ ...rest, ...customer });
+      }),
+    );
     return result;
   }
 
